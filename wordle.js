@@ -138,11 +138,16 @@ function update() {
     let guess = "";
     document.getElementById("answer").innerText = "";
 
-    // Concatenate letters from the current guess row
+    // Ensure the user entered a full word before checking it
     for (let c = 0; c < width; c++) {
         let currTile = document.getElementById(row.toString() + '-' + c.toString());
         let letter = currTile.innerText;
         guess += letter;
+    }
+
+    if (guess.length < width) {
+        document.getElementById("answer").innerText = "Enter a full word!";
+        return; // Stop processing if not all letters are entered
     }
 
     guess = guess.toLowerCase();
@@ -165,10 +170,9 @@ function update() {
         let letter = currTile.innerText;
 
         setTimeout(() => {
-            currTile.classList.add("flip"); // Start flipping
+            currTile.classList.add("flip");
 
             setTimeout(() => {
-                // Change color midway through the flip
                 if (word[c] == letter) {
                     currTile.classList.add("correct");
                     document.getElementById("Key" + letter).classList.add("correct");
@@ -183,18 +187,13 @@ function update() {
                     document.getElementById("Key" + letter).classList.add("absent");
                 }
 
-                currTile.classList.remove("flip"); // Remove the flip class after animation
+                currTile.classList.remove("flip");
 
-                // If the user wins, show the win popup
+                // **✅ Check if the user won before checking for loss**
                 if (correct === width) {
                     gameOver = true;
-                    setTimeout(showPopup, 500);
-                }
-
-                // If this was the last row and the word is still not correct, show the lose popup
-                if (row === height - 1 && correct !== width) {
-                    gameOver = true;
-                    setTimeout(showLosePopup, 500);
+                    setTimeout(showPopup, 500); // Show win popup
+                    return; // Stop further execution
                 }
 
                 // Move to the next row after the last tile finishes animation
@@ -202,14 +201,10 @@ function update() {
                     row += 1;
                     col = 0;
                 }
-            }, 200); // Midway flip for color change
-
-        }, c * 150); // Overlapping animation starts 150ms apart
+            }, 200);
+        }, c * 150);
     }
 }
-
-
-
 
 // Function to show the popup
 function showPopup() {
