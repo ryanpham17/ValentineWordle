@@ -240,6 +240,7 @@ body {
 
     .enter-key-tile {
         font-size: 8px;
+        width: 28px;
     }
 
     .popup {
