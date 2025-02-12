@@ -135,13 +135,25 @@ body {
     z-index: 1000;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* This ensures the popup is centered */
+    transform: translate(-50%, -50%) scale(0.5); /* Start small */
     width: 300px;
     background: white;
     padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     border-radius: 10px;
+    opacity: 0; /* Start invisible */
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+.popup.show {
+    transform: translate(-50%, -50%) scale(1); /* Grow to full size */
+    opacity: 1; /* Make visible */
+}
+
+.popup.hide {
+    transform: translate(-50%, -50%) scale(0.5); /* Shrink down */
+    opacity: 0;
 }
 
 /* Popup content styles */

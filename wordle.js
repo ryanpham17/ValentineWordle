@@ -214,22 +214,46 @@ function update() {
 }
 
 
-// Function to show the popup
+// Function to show the popup with animation
 function showPopup() {
-    document.getElementById("winPopup").style.display = "block";
+    let popup = document.getElementById("winPopup");
+    popup.style.display = "block"; // Make it visible
+    setTimeout(() => {
+        popup.classList.add("show"); // Add animation class
+    }, 10); // Small delay to allow transition
 }
 
 // Function to show the lose popup
 function showLosePopup() {
-    document.getElementById("losePopup").style.display = "block";
+    let popup = document.getElementById("losePopup");
+    popup.style.display = "block"; // Make it visible
+    setTimeout(() => {
+        popup.classList.add("show"); // Add animation class
+    }, 10);
 }
 
-// Function to close the popups
+// Function to close the popup smoothly
 function closePopup() {
-    document.getElementById("winPopup").style.display = "none";
-    document.getElementById("losePopup").style.display = "none";
-}
+    let winPopup = document.getElementById("winPopup");
+    let losePopup = document.getElementById("losePopup");
 
+    // Add "hide" class to start shrinking animation
+    if (winPopup.classList.contains("show")) {
+        winPopup.classList.add("hide");
+        setTimeout(() => {
+            winPopup.classList.remove("show", "hide");
+            winPopup.style.display = "none"; // Hide completely after animation
+        }, 400); // Match the transition duration
+    }
+
+    if (losePopup.classList.contains("show")) {
+        losePopup.classList.add("hide");
+        setTimeout(() => {
+            losePopup.classList.remove("show", "hide");
+            losePopup.style.display = "none";
+        }, 400);
+    }
+}
 
 function updateKeyboardState() {
     // Update the keyboard keys to reflect the current state (correct, present, absent)
