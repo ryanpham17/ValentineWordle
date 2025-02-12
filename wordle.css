@@ -186,6 +186,7 @@ hr {
 }
 
 .popup button {
+    font-family: 'Single Day';
     background: #FFB6C1;
     color: white;
     border: none;
