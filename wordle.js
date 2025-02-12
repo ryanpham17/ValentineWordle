@@ -157,14 +157,9 @@ function update() {
     let letterCount = {}; // Keep track of letter frequency
     for (let i = 0; i < word.length; i++) {
         let letter = word[i];
-        if (letterCount[letter]) {
-            letterCount[letter] += 1;
-        } else {
-            letterCount[letter] = 1;
-        }
+        letterCount[letter] = (letterCount[letter] || 0) + 1;
     }
 
-    // Apply animations with a small overlap for smoothness
     for (let c = 0; c < width; c++) {
         let currTile = document.getElementById(row.toString() + '-' + c.toString());
         let letter = currTile.innerText;
@@ -190,20 +185,29 @@ function update() {
 
                 currTile.classList.remove("flip"); // Remove the flip class after animation
 
+                // If the user wins, show the win popup
                 if (correct === width) {
                     gameOver = true;
-                    setTimeout(showPopup, 500); // Small delay before win popup
+                    setTimeout(showPopup, 500);
                 }
 
+                // If this was the last row and the word is still not correct, show the lose popup
+                if (row === height - 1 && correct !== width) {
+                    gameOver = true;
+                    setTimeout(showLosePopup, 500);
+                }
+
+                // Move to the next row after the last tile finishes animation
                 if (c === width - 1) {
                     row += 1;
                     col = 0;
                 }
-            }, 200); // Midway flip color change
+            }, 200); // Midway flip for color change
 
         }, c * 150); // Overlapping animation starts 150ms apart
     }
 }
+
 
 
 

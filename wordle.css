@@ -251,7 +251,7 @@ body {
 
 /* Flip animation with a smooth curve */
 .flip {
-    animation: flipAnimation 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: flipAnimation 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes flipAnimation {
