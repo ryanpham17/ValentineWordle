@@ -1,0 +1,42 @@
+
+
+<html>
+    <head>
+        <link rel="stylesheet" href="./style/css/styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Poppins:wght@600;800&family=Single+Day&display=swap" rel="stylesheet">
+        
+    </head> 
+    <head>
+        <title>Wordle</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale = 1.0">
+
+        <link rel="stylesheet" href="wordle.css">
+        <script src="wordle.js"></script>
+    </head>
+
+    <body>
+        <h1 id="title">WILL YOU BE MY VALENTINE?</h1>
+        <hr>
+        <br>
+        <div id="board">
+        </div>
+
+        <br>
+        <h1 id="answer"></h1>
+        <div id="winPopup" class="popup">
+            <div class="popup-content">
+                <p>Awesome! See you on the 14th :)</p>
+                <button onclick="closePopup()">OK</button>
+            </div>
+        </div>
+        <div id="losePopup" class="popup">
+            <div class="popup-content">
+                <p>You ran out of attempts! I'll see you on the 14th anyway >:)</p>
+                <button onclick="closePopup()">Close</button>
+            </div>
+        </div>
+    </body>
+</html>
