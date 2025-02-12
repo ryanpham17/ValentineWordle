@@ -189,29 +189,30 @@ function update() {
 
                 currTile.classList.remove("flip");
 
-                // **✅ Check if the user won before checking for loss**
-                if (correct === width) {
-                    gameOver = true;
-                    setTimeout(showPopup, 500); // Show win popup
-                    return; // Stop further execution
-                }
-
-                // **✅ Only trigger lose condition if this was the last row and the word was not guessed**
-                if (row === height - 1 && correct !== width) {
-                    gameOver = true;
-                    setTimeout(showLosePopup, 500);
-                    return; // Stop further execution
-                }
-
                 // Move to the next row after the last tile finishes animation
                 if (c === width - 1) {
                     row += 1;
                     col = 0;
+
+                    // ✅ **Move the win condition OUTSIDE the loop**
+                    if (correct === width) {
+                        gameOver = true;
+                        setTimeout(showPopup, 500); // Show win popup
+                        return; // 🚨 STOP EXECUTION IMMEDIATELY
+                    }
+
+                    // ❌ **Only trigger the lose condition if the word was NOT guessed correctly**
+                    if (row === height && correct !== width) {
+                        gameOver = true;
+                        setTimeout(showLosePopup, 500);
+                        return; // 🚨 STOP EXECUTION IMMEDIATELY
+                    }
                 }
             }, 200);
         }, c * 150);
     }
 }
+
 
 // Function to show the popup
 function showPopup() {
