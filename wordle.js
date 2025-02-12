@@ -145,7 +145,7 @@ function update() {
         guess += letter;
     }
 
-    guess = guess.toLowerCase(); // Case insensitive
+    guess = guess.toLowerCase();
     console.log(guess);
 
     if (!guessList.includes(guess)) {
@@ -154,7 +154,7 @@ function update() {
     }
 
     let correct = 0;
-    let letterCount = {}; // keep track of letter frequency
+    let letterCount = {}; // Keep track of letter frequency
     for (let i = 0; i < word.length; i++) {
         let letter = word[i];
         if (letterCount[letter]) {
@@ -164,16 +164,16 @@ function update() {
         }
     }
 
-    // Delay and animate each tile flipping
+    // Apply animations with a small overlap for smoothness
     for (let c = 0; c < width; c++) {
         let currTile = document.getElementById(row.toString() + '-' + c.toString());
         let letter = currTile.innerText;
 
         setTimeout(() => {
-            currTile.classList.add("flip"); // Start the flip animation
+            currTile.classList.add("flip"); // Start flipping
 
             setTimeout(() => {
-                // Once the flip is halfway through, change the color based on correctness
+                // Change color midway through the flip
                 if (word[c] == letter) {
                     currTile.classList.add("correct");
                     document.getElementById("Key" + letter).classList.add("correct");
@@ -188,26 +188,23 @@ function update() {
                     document.getElementById("Key" + letter).classList.add("absent");
                 }
 
-                // Remove flip class after the animation
-                currTile.classList.remove("flip");
+                currTile.classList.remove("flip"); // Remove the flip class after animation
 
-                // Check if the word was guessed correctly
                 if (correct === width) {
                     gameOver = true;
-                    setTimeout(showPopup, 500); // Slight delay before showing the win popup
+                    setTimeout(showPopup, 500); // Small delay before win popup
                 }
 
-                // Move to the next row after the last tile finishes animation
                 if (c === width - 1) {
                     row += 1;
                     col = 0;
                 }
+            }, 200); // Midway flip color change
 
-            }, 250); // Change color after 250ms (midway flip)
-
-        }, c * 500); // Stagger each tile flip by 500ms
+        }, c * 150); // Overlapping animation starts 150ms apart
     }
 }
+
 
 
 // Function to show the popup

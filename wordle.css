@@ -249,8 +249,9 @@ body {
     }
 }
 
+/* Flip animation with a smooth curve */
 .flip {
-    animation: flipAnimation 0.5s ease-in-out;
+    animation: flipAnimation 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes flipAnimation {
@@ -259,7 +260,7 @@ body {
     }
     50% {
         transform: rotateX(90deg);
-        background-color: #999; /* Temporary gray to hide letter change */
+        background-color: #999; /* Temporary hide */
     }
     100% {
         transform: rotateX(0deg);
