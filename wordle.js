@@ -49,11 +49,11 @@ function initialize() {
         }
     }
 
-    // Create the key board
+    // Create the keyboard
     let keyboard = [
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-        ["Enter ", "Z", "X", "C", "V", "B", "N", "M", "⌫"]
+        ["Enter", "Z", "X", "C", "V", "B", "N", "M", "⌫"]
     ];
 
     for (let i = 0; i < keyboard.length; i++) {
@@ -65,33 +65,40 @@ function initialize() {
             let keyTile = document.createElement("div");
             let key = currRow[j];
             keyTile.innerText = key;
-            if (key == "Enter") {
+
+            // Ensure the Enter key gets the correct ID
+            if (key === "Enter") {
                 keyTile.id = "Enter";
             }
-            else if (key == "⌫") {
+            // Handle backspace key
+            else if (key === "⌫") {
                 keyTile.id = "Backspace";
             }
+            // Handle regular letter keys
             else if ("A" <= key && key <= "Z") {
                 keyTile.id = "Key" + key; // "Key" + "A";
             }
 
             keyTile.addEventListener("click", processKey);
 
-            if (key == "Enter") {
+            // Add the appropriate class based on the key type
+            if (key === "Enter") {
                 keyTile.classList.add("enter-key-tile");
             } else {
                 keyTile.classList.add("key-tile");
             }
+
             keyboardRow.appendChild(keyTile);
         }
         document.body.appendChild(keyboardRow);
     }
 
-    // Listen for Key Press
+    // Listen for Key Press (physical keyboard)
     document.addEventListener("keyup", (e) => {
         processInput(e);
     })
 }
+
 
 function processKey() {
     e = { "code": this.id };
