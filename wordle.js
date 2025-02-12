@@ -145,7 +145,7 @@ function update() {
         guess += letter;
     }
 
-    guess = guess.toLowerCase(); // case sensitive
+    guess = guess.toLowerCase(); // Case insensitive
     console.log(guess);
 
     if (!guessList.includes(guess)) {
@@ -153,7 +153,6 @@ function update() {
         return;
     }
 
-    // Start processing guess
     let correct = 0;
     let letterCount = {}; // keep track of letter frequency
     for (let i = 0; i < word.length; i++) {
@@ -165,51 +164,51 @@ function update() {
         }
     }
 
-    // First iteration: check correct ones first
+    // Delay and animate each tile flipping
     for (let c = 0; c < width; c++) {
         let currTile = document.getElementById(row.toString() + '-' + c.toString());
         let letter = currTile.innerText;
 
-        if (word[c] == letter) {
-            currTile.classList.add("correct");
-            let keyTile = document.getElementById("Key" + letter);
-            keyTile.classList.remove("present");
-            keyTile.classList.add("correct");
-            correct += 1;
-            letterCount[letter] -= 1;
-        }
-    }
+        setTimeout(() => {
+            currTile.classList.add("flip"); // Start the flip animation
 
-    if (correct == width) {
-        gameOver = true;
-        showPopup();  // Show the popup when user wins
-    }
-
-    // Second iteration: mark incorrect position letters
-    for (let c = 0; c < width; c++) {
-        let currTile = document.getElementById(row.toString() + '-' + c.toString());
-        let letter = currTile.innerText;
-
-        if (!currTile.classList.contains("correct")) {
-            if (word.includes(letter) && letterCount[letter] > 0) {
-                currTile.classList.add("present");
-                let keyTile = document.getElementById("Key" + letter);
-                if (!keyTile.classList.contains("correct")) {
-                    keyTile.classList.add("present");
+            setTimeout(() => {
+                // Once the flip is halfway through, change the color based on correctness
+                if (word[c] == letter) {
+                    currTile.classList.add("correct");
+                    document.getElementById("Key" + letter).classList.add("correct");
+                    correct += 1;
+                    letterCount[letter] -= 1;
+                } else if (word.includes(letter) && letterCount[letter] > 0) {
+                    currTile.classList.add("present");
+                    document.getElementById("Key" + letter).classList.add("present");
+                    letterCount[letter] -= 1;
+                } else {
+                    currTile.classList.add("absent");
+                    document.getElementById("Key" + letter).classList.add("absent");
                 }
-                letterCount[letter] -= 1;
-            } else {
-                currTile.classList.add("absent");
-                let keyTile = document.getElementById("Key" + letter);
-                keyTile.classList.add("absent");
-            }
-        }
-    }
 
-    updateKeyboardState();
-    row += 1;
-    col = 0;
+                // Remove flip class after the animation
+                currTile.classList.remove("flip");
+
+                // Check if the word was guessed correctly
+                if (correct === width) {
+                    gameOver = true;
+                    setTimeout(showPopup, 500); // Slight delay before showing the win popup
+                }
+
+                // Move to the next row after the last tile finishes animation
+                if (c === width - 1) {
+                    row += 1;
+                    col = 0;
+                }
+
+            }, 250); // Change color after 250ms (midway flip)
+
+        }, c * 500); // Stagger each tile flip by 500ms
+    }
 }
+
 
 // Function to show the popup
 function showPopup() {
