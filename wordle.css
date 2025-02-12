@@ -1,40 +1,51 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Global Styles */
 body {
-    user-select: none;       /* Prevent text selection */
+    user-select: none; /* Prevent text selection */
     caret-color: transparent; /* Hide the text cursor */
     font-family: 'Single Day'; /* Wordle uses 'Inter', a Google font */
     text-align: center;
     background-color: #f5f5f5; /* Light background */
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
 }
 
-hr {
-    width: 600px;
-}
-
+/* Title Style */
 #title {
     font-size: 36px;
     font-weight: bold;
     letter-spacing: 2px;
-    margin-top: 140px;
+    margin-top: 20px;
 }
 
+/* Game Board */
 #board {
     width: 210px;  /* 3 tiles * 60px each */
-    height: 420px;
-    margin: 100px auto;
+    height: 420px;  /* 7 rows * 60px each */
+    margin: 20px auto;
     display: grid;
     grid-template-columns: repeat(3, 60px); /* 3 columns, each 60px wide */
     grid-gap: 10px; /* Increased space between tiles */
 }
 
+/* Tile Style */
 .tile {
     border: 2px solid lightgray;
     width: 60px;
     height: 60px;
-    margin: 0;
     color: black;
-    font-size: 36px;
+    font-size: 36px; /* Larger font for laptop */
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -43,6 +54,7 @@ hr {
     border-radius: 8px;
 }
 
+/* Correct, Present, and Absent Styles */
 .correct {
     background-color: #6AAA64;
     color: white;
@@ -61,6 +73,7 @@ hr {
     border-color: white;
 }
 
+/* Keyboard Row */
 .keyboard-row {
     width: 800px;
     margin: 20px auto;
@@ -69,110 +82,60 @@ hr {
     justify-content: center;
 }
 
-.key-tile {
-    width: 40px;
+/* Key Tile Styles */
+.key-tile, .enter-key-tile, .backspace-key-tile {
+    width: 50px;
     height: 40px;
     margin: 5px;
     border: 1px solid lightgray;
-    font-size: 20px;
+    font-size: 20px; /* Appropriate font size for desktop */
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 8px; /* Rounded corners for keys */
+    border-radius: 8px;
     background-color: #D3D6DA; /* Light gray background for unpressed keys */
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.key-tile:hover {
+.key-tile:hover, .enter-key-tile:hover, .backspace-key-tile:hover {
     background-color: #B4B8B9; /* Darker gray on hover */
 }
 
-.enter-key-tile {
-    width: 76px;
-    height: 40px;
-    margin: 5px;
-    border: 1px solid lightgray;
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    background-color: #D3D6DA;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.enter-key-tile:hover {
-    background-color: #B4B8B9;
-}
-
-.key-tile:active,
-.enter-key-tile:active {
+.key-tile:active, .enter-key-tile:active, .backspace-key-tile:active {
     background-color: #555757; /* Darker gray when clicked */
 }
 
-.backspace-key-tile {
-    width: 40px;
-    height: 40px;
-    margin: 5px;
-    border: 1px solid lightgray;
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    background-color: #D3D6DA;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.backspace-key-tile:hover {
-    background-color: #B4B8B9;
-}
-
-/* Adjust keyboard rows to align exactly like the image you uploaded */
-.keyboard-row:first-of-type {
+/* Adjusting keyboard rows */
+.keyboard-row:first-of-type, .keyboard-row:nth-of-type(2), .keyboard-row:nth-of-type(3), .keyboard-row:last-of-type {
     justify-content: center;
 }
 
-.keyboard-row:nth-of-type(2) {
-    justify-content: center;
-}
-
-.keyboard-row:nth-of-type(3) {
-    justify-content: center;
-}
-
-.keyboard-row:last-of-type {
-    justify-content: center;
-}
-
+/* Correct, Present, and Absent Styles for Keys */
 .key-tile.correct, .enter-key-tile.correct {
     background-color: #6AAA64;
-    color: white; /* Change text color to white when the key is correct */
+    color: white;
 }
 
 .key-tile.present, .enter-key-tile.present {
     background-color: #C9B458;
-    color: white; /* Change text color to white when the key is present but in the wrong position */
+    color: white;
 }
 
 .key-tile.absent, .enter-key-tile.absent {
     background-color: #787C7E;
-    color: white; /* Change text color to white when the key is absent */
+    color: white;
 }
 
+/* Popup Styles */
 .popup {
     display: none;
     position: fixed;
     z-index: 1000;
-    left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    left: 50%;
+    transform: translate(-50%, -50%); /* This ensures the popup is centered */
     width: 300px;
     background: white;
     padding: 20px;
@@ -181,6 +144,7 @@ hr {
     border-radius: 10px;
 }
 
+/* Popup content styles */
 .popup-content {
     font-family: "Single Day";
 }
@@ -199,4 +163,83 @@ hr {
 
 .popup button:hover {
     background: #f6a9b4;
+}
+
+
+/* Media Query for smaller screens */
+@media (max-width: 800px) {
+    /* Adjust Title */
+    #title {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+
+    /* Adjust Board Layout */
+    #board {
+        width: 180px; /* Smaller width for mobile */
+        height: auto;
+        grid-template-columns: repeat(3, 50px); /* Smaller tile size */
+    }
+
+    .tile {
+        width: 50px;
+        height: 50px;
+        font-size: 28px; /* Smaller font size */
+    }
+
+    /* Adjust Keyboard Layout */
+    .keyboard-row {
+        width: 90%;
+        flex-wrap: wrap;
+    }
+
+    .key-tile, .enter-key-tile, .backspace-key-tile {
+        width: 30px;
+        height: 30px;
+        font-size: 14px; /* Smaller font size */
+    }
+
+    .keyboard-row {
+        margin-top: 10px;
+    }
+
+    .popup {
+        width: 220px;
+        padding: 15px;
+    }
+}
+
+/* Media Query for extra small screens */
+@media (max-width: 400px) {
+    #title {
+        font-size: 20px;
+    }
+
+    /* Further Adjust Board Layout */
+    #board {
+        width: 140px; /* Even smaller width for very small screens */
+        grid-template-columns: repeat(3, 40px); /* Smaller tiles */
+    }
+
+    .tile {
+        width: 40px;
+        height: 40px;
+        font-size: 20px; /* Smaller text */
+    }
+
+    .keyboard-row {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .key-tile, .enter-key-tile, .backspace-key-tile {
+        width: 25px;
+        height: 25px;
+        font-size: 12px; /* Further reduce font size */
+    }
+
+    .popup {
+        width: 200px;
+        padding: 12px;
+    }
 }
