@@ -194,7 +194,7 @@ body {
     }
 
     .key-tile, .enter-key-tile, .backspace-key-tile {
-        width: 50px;
+        width: 35px;
         height: 30px;
         font-size: 14px; /* Smaller font size */
     }
@@ -233,7 +233,7 @@ body {
     }
 
     .key-tile, .enter-key-tile, .backspace-key-tile {
-        width: 40px;
+        width: 30px;
         height: 25px;
         font-size: 12px; /* Further reduce font size */
     }
