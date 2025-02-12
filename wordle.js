@@ -196,6 +196,13 @@ function update() {
                     return; // Stop further execution
                 }
 
+                // **✅ Only trigger lose condition if this was the last row and the word was not guessed**
+                if (row === height - 1 && correct !== width) {
+                    gameOver = true;
+                    setTimeout(showLosePopup, 500);
+                    return; // Stop further execution
+                }
+
                 // Move to the next row after the last tile finishes animation
                 if (c === width - 1) {
                     row += 1;
