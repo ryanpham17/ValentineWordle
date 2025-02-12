@@ -238,6 +238,10 @@ body {
         font-size: 12px; /* Further reduce font size */
     }
 
+    .enter-key-tile {
+        font-size: 8px;
+    }
+
     .popup {
         width: 200px;
         padding: 12px;
