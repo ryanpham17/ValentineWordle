@@ -165,6 +165,8 @@ function update() {
         letterCount[letter] = (letterCount[letter] || 0) + 1;
     }
 
+    let keyUpdates = {}; // Store letter states for keyboard update
+
     for (let c = 0; c < width; c++) {
         let currTile = document.getElementById(row.toString() + '-' + c.toString());
         let letter = currTile.innerText;
@@ -173,24 +175,27 @@ function update() {
             currTile.classList.add("flip");
 
             setTimeout(() => {
-                if (word[c] == letter) {
+                if (word[c] === letter) {
                     currTile.classList.add("correct");
-                    document.getElementById("Key" + letter).classList.add("correct");
+                    keyUpdates[letter] = "correct"; // Mark as correct
                     correct += 1;
                     letterCount[letter] -= 1;
                 } else if (word.includes(letter) && letterCount[letter] > 0) {
                     currTile.classList.add("present");
-                    document.getElementById("Key" + letter).classList.add("present");
+                    // Only set as present if not already correct
+                    if (!keyUpdates[letter]) keyUpdates[letter] = "present"; 
                     letterCount[letter] -= 1;
                 } else {
                     currTile.classList.add("absent");
-                    document.getElementById("Key" + letter).classList.add("absent");
+                    if (!keyUpdates[letter]) keyUpdates[letter] = "absent";
                 }
 
                 currTile.classList.remove("flip");
 
                 // Move to the next row after the last tile finishes animation
                 if (c === width - 1) {
+                    updateKeyboardState(keyUpdates); // ✅ Update keyboard with final states
+
                     row += 1;
                     col = 0;
 
@@ -212,6 +217,7 @@ function update() {
         }, c * 150);
     }
 }
+
 
 
 // Function to show the popup with animation
@@ -255,31 +261,21 @@ function closePopup() {
     }
 }
 
-function updateKeyboardState() {
-    // Update the keyboard keys to reflect the current state (correct, present, absent)
-    for (let r = 0; r < height; r++) {
-        for (let c = 0; c < width; c++) {
-            let currTile = document.getElementById(r.toString() + '-' + c.toString());
-            let letter = currTile.innerText;
+function updateKeyboardState(keyUpdates) {
+    for (let letter in keyUpdates) {
+        let keyTile = document.getElementById("Key" + letter.toUpperCase());
 
-            if (letter !== "") {
-                let keyTile = document.getElementById("Key" + letter);
-
-                // If the letter is already marked as correct (green), ensure it stays green
-                if (currTile.classList.contains("correct")) {
-                    keyTile.classList.add("correct");
-                    keyTile.classList.remove("present", "absent");
-                } 
-                // If the letter is already marked as present (yellow), ensure it stays yellow
-                else if (currTile.classList.contains("present")) {
-                    keyTile.classList.add("present");
-                    keyTile.classList.remove("correct", "absent");
-                } 
-                // If the letter is already marked as absent (dark gray), ensure it stays dark gray
-                else if (currTile.classList.contains("absent")) {
-                    keyTile.classList.add("absent");
-                    keyTile.classList.remove("correct", "present");
-                }
+        if (keyUpdates[letter] === "correct") {
+            keyTile.classList.remove("present", "absent");
+            keyTile.classList.add("correct");
+        } else if (keyUpdates[letter] === "present") {
+            if (!keyTile.classList.contains("correct")) {
+                keyTile.classList.remove("absent");
+                keyTile.classList.add("present");
+            }
+        } else if (keyUpdates[letter] === "absent") {
+            if (!keyTile.classList.contains("correct") && !keyTile.classList.contains("present")) {
+                keyTile.classList.add("absent");
             }
         }
     }
